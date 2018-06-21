@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
   commentForm.addEventListener("submit", function (event){
     event.preventDefault()
     const li = document.createElement("li")
-    
+
     li.innerText = event.srcElement["0"].value
     comments.appendChild(li)
     config = {
@@ -58,7 +58,15 @@ document.addEventListener('DOMContentLoaded', function() {
         content: event.srcElement["0"].value
       })
     }
-    fetch(commentsURL, config)
+    fetch(commentsURL, config).then(r=>r.json()).then(function (r){
+      li.id = r.id
+      const deleteButton = document.createElement("button")
+
+      deleteButton.innerText = "Delete"
+      deleteButton.id = r.id
+      deleteButton.type = "button"
+      li.appendChild(deleteButton)
+    })
 
   })
 
